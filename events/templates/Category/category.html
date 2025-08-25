@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Categories{% endblock title %}
+{% block content %}
+<div class="w-full py-24 flex flex-col justify-center items-center bg-[#523824]">
+    <div class="w-full flex flex-col justify-center items-center px-6 py-16 mb-5">
+        <h1 class="w-full text-4xl font-bold text-yellow-600 sm:text-6xl flex justify-center text-center">Where every event finds its place</h1>
+        <p class="w-full mt-4 text-xl text-yellow-50 flex justify-center text-center">Explore categories that lead to meaningful and memorable events.</p>
+        <div class="w-full flex justify-center">
+            <a href="{% url "add-category" %}"><button class="text-sm font-bold bg-yellow-700 hover:bg-yellow-400 text-white px-4 py-2 rounded-md hover:translate-x-0.5 hover:translate-y-1 mt-5">+ New Category</button></a>
+        </div>
+    </div>
+    {% comment %} List {% endcomment %}
+    <div class="w-full flex flex-col md:flex-row justify-center items-stretch gap-4 flex-wrap px-5">
+    {% for category in categories %}
+    {% comment %} Item {% endcomment %}
+        <div class="relative min-w-64 md:min-w-80 bg-[#1f1000] rounded-xl shadow p-5 flex flex-col">
+            <img class="absolute -top-4 left-0" src="{% static "Images/straight_string_light.svg" %}" alt="">
+             {% comment %} Text Section {% endcomment %}
+            <div class="max-w-80 flex flex-col justify-center flex-1 py-8">            
+                <div class="flex items-center mb-4">
+                    <h3 class="text-lg font-semibold text-yellow-700 bg-yellow-50 rounded-2xl px-3 py-1 capitalize">{{category.name}}</h3>
+                </div>
+                <p class="text-sm text-yellow-500 text-opacity-80 normal-case text-wrap">{{category.description}}</p>            
+            </div>
+
+            {% comment %} Divider {% endcomment %}
+            <div class="border-t my-4"></div>
+
+            {% comment %} Button section {% endcomment %}
+            <div class="w-full h-[40px] flex flex-row justify-around items-center gap-4 px-6">
+                <a href="{% url "update-category" category.id %}" class="w-full"><button class="flex items-center justify-center gap-2 py-3 text-gray-700 hover:-translate-y-1 hover:duration-300">
+                    <div class="size-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="#F5B727" viewBox="0 0 640 640"><!--!Font Awesome Free v7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M416.9 85.2L372 130.1L509.9 268L554.8 223.1C568.4 209.6 576 191.2 576 172C576 152.8 568.4 134.4 554.8 120.9L519.1 85.2C505.6 71.6 487.2 64 468 64C448.8 64 430.4 71.6 416.9 85.2zM338.1 164L122.9 379.1C112.2 389.8 104.4 403.2 100.3 417.8L64.9 545.6C62.6 553.9 64.9 562.9 71.1 569C77.3 575.1 86.2 577.5 94.5 575.2L222.3 539.7C236.9 535.6 250.2 527.9 261 517.1L476 301.9L338.1 164z"/></svg>
+                    </div>
+                </button></a>
+                <button class="flex items-center justify-center gap-2 py-3 hover:-translate-y-1 hover:duration-300" command="show-modal" commandfor="{{ category.id }}">
+                    <div class="size-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="#F5B727" viewBox="0 0 640 640"><!--!Font Awesome Free v7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M232.7 69.9C237.1 56.8 249.3 48 263.1 48L377 48C390.8 48 403 56.8 407.4 69.9L416 96L512 96C529.7 96 544 110.3 544 128C544 145.7 529.7 160 512 160L128 160C110.3 160 96 145.7 96 128C96 110.3 110.3 96 128 96L224 96L232.7 69.9zM128 208L512 208L512 512C512 547.3 483.3 576 448 576L192 576C156.7 576 128 547.3 128 512L128 208zM216 272C202.7 272 192 282.7 192 296L192 488C192 501.3 202.7 512 216 512C229.3 512 240 501.3 240 488L240 296C240 282.7 229.3 272 216 272zM320 272C306.7 272 296 282.7 296 296L296 488C296 501.3 306.7 512 320 512C333.3 512 344 501.3 344 488L344 296C344 282.7 333.3 272 320 272zM424 272C410.7 272 400 282.7 400 296L400 488C400 501.3 410.7 512 424 512C437.3 512 448 501.3 448 488L448 296C448 282.7 437.3 272 424 272z"/></svg>
+                    </div>
+                </button>
+                {% url 'delete-category' category.id as deletion_url %}
+                {% comment %} Dialog {% endcomment %}
+                {% include "Widget/dialog.html" with delete_event_dialog=category.id deletion_url=deletion_url title='Warning!' message='Are you sure you want to delete the category? This action cannot be undone.' confirm_text='Delete' cancel_text='Cancel' %}
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+</div>
+{% endblock content %}

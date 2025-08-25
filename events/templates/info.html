@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Details</title>
+    <link rel="stylesheet" href="{% static "CSS/output.css" %}">
+</head>
+<body>
+    <div class="flex flex-col gap-8 p-5 h-full justify-center">
+        <button onclick="history.back()" class="w-[100px] flex flex-row justify-center gap-1 items-center p-5 text-lg font-semibold text-yellow-600 hover:text-yellow-400 hover:translate-x-2">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="#DEAD00" class="size-5" viewBox="0 0 640 640"><!--!Font Awesome Free v7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M73.4 297.4C60.9 309.9 60.9 330.2 73.4 342.7L233.4 502.7C245.9 515.2 266.2 515.2 278.7 502.7C291.2 490.2 291.2 469.9 278.7 457.4L173.3 352L544 352C561.7 352 576 337.7 576 320C576 302.3 561.7 288 544 288L173.3 288L278.7 182.6C291.2 170.1 291.2 149.8 278.7 137.3C266.2 124.8 245.9 124.8 233.4 137.3L73.4 297.3z"/></svg>
+            Back
+        </button>
+        <div class="w-full md:w-1/2 flex flex-col justify-center items-center mx-auto bg-yellow-50 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300">
+            <div class="w-full p-6 flex flex-col gap-2 justify-center">
+                <h2 class="text-xl font-semibold text-yellow-700 mb-2">Deletion Status</h2>
+                {% if messages %}
+                    {% for message in messages %}
+                        <p class="font-medium text-md {% if message.tags == 'success' %} text-green-400 {% elif message.tags == 'error' %} text-red-400 {% endif %} ">{{message}}</div>
+                        {% if message.tags == 'success' %}
+                            <p class="text-gray-600 text-sm text-wrap w-full px-6 mb-4">
+                                <b>Note:</b> <span>You have deleted a record permanently. This action cannot be undone.</span>
+                            </p>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+                <div class="w-full flex flex-row items-center justify-between mb-4 px-6">
+                    <a href="/" class="px-4 py-2 bg-yellow-700 text-white text-sm font-semibold rounded-lg hover:bg-yellow-400 transition-colors duration-300">
+                        OK
+                    </a>
+                    <a href="#" class="text-yellow-700 text-sm font-semibold hover:underline">Learn More →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<form method="get" action="{% url 'organizer-dashboard' %}" class="w-full rounded-2xl p-4">
+
+    <div class="flex flex-col md:flex-row gap-4 items-center w-full">
+        <input type="hidden" name="type" value="search">
+
+        {% comment %} Category {% endcomment %}
+        <div class="w-full md:w-auto">
+            <select 
+                name="category" 
+                class="w-full px-3 py-2 bg-transparent border-2 border-yellow-700 rounded-md text-yellow-700 focus:ring-2 focus:ring-yellow-500 focus:outline-none"
+            >
+                <option value="" disabled selected>{{None}}</option>
+                {% for category in categories %}
+                    <option value="{{category}}" class="uppercase">{{category}}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        {% comment %} Date Range {% endcomment %}
+        <div class="w-full md:w-auto flex gap-2">
+            <input 
+                type="text" 
+                name="start_date" 
+                onfocus="this.type='date'" 
+                onblur="if(!this.value) this.type='text'" 
+                placeholder="Start date"
+                class="w-full px-4 py-2 bg-transparent text-yellow-700 border-2 border-yellow-700 rounded-md focus:ring-2 focus:ring-yellow-500 focus:outline-none"
+            >
+            <input 
+                type="text" 
+                name="end_date" 
+                onfocus="this.type='date'" 
+                onblur="if(!this.value) this.type='text'" 
+                placeholder="End date"
+                class="w-full px-4 py-2 bg-transparent text-yellow-700 border-2 border-yellow-700 rounded-md focus:ring-2 focus:ring-yellow-500 focus:outline-none"
+            >
+        </div>
+
+        {% comment %} Location {% endcomment %}
+        <div class="w-full md:w-auto">
+            <input 
+                type="text" 
+                name="location" 
+                placeholder="Location..."
+                class="w-full px-4 py-2 bg-transparent text-yellow-700 border-2 border-yellow-700 rounded-md focus:ring-2 focus:ring-yellow-500 focus:outline-none"
+            >
+        </div>
+
+        {% comment %} Search Button {% endcomment %}
+        <button 
+            type="submit" 
+            class="px-4 py-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-700 transition w-full md:w-auto"
+        >
+            Search
+        </button>
+        
+    </div>
+</form>

@@ -1,0 +1,28 @@
+<svg viewBox="0 0 800 260" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Party garlands">
+  <!-- top rope -->
+  <path d="M20,40 C200,140 600,-20 780,60"
+        fill="none" stroke="#2F2F2F" stroke-width="6" stroke-linecap="round"/>
+  <!-- bottom rope -->
+  <path d="M20,120 C220,220 580,60 780,140"
+        fill="none" stroke="#2F2F2F" stroke-width="6" stroke-linecap="round"/>
+
+  <!-- top flags -->
+  <polygon points="80,64 100,110 120,64"  fill="#EF4444"/>
+  <polygon points="160,78 180,124 200,78" fill="#F59E0B"/>
+  <polygon points="240,60 260,106 280,60" fill="#10B981"/>
+  <polygon points="320,72 340,118 360,72" fill="#3B82F6"/>
+  <polygon points="400,58 420,104 440,58" fill="#8B5CF6"/>
+  <polygon points="480,70 500,116 520,70" fill="#F97316"/>
+  <polygon points="560,56 580,102 600,56" fill="#EAB308"/>
+  <polygon points="640,68 660,114 680,68" fill="#EC4899"/>
+
+  <!-- bottom flags -->
+  <polygon points="60,140 80,188 100,140"   fill="#F59E0B"/>
+  <polygon points="140,158 160,206 180,158"  fill="#EF4444"/>
+  <polygon points="220,146 240,194 260,146"  fill="#3B82F6"/>
+  <polygon points="300,162 320,210 340,162"  fill="#10B981"/>
+  <polygon points="380,150 400,198 420,150"  fill="#F97316"/>
+  <polygon points="460,166 480,214 500,166"  fill="#8B5CF6"/>
+  <polygon points="540,152 560,200 580,152"  fill="#EAB308"/>
+  <polygon points="620,168 640,216 660,168"  fill="#EC4899"/>
+</svg>

@@ -3,6 +3,9 @@ __pycache__/
 *.py[codz]
 *$py.class
 
+# Node stuff
+node_modules/
+
 # C extensions
 *.so
 
@@ -143,6 +146,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+event_env/
 
 # Spyder project settings
 .spyderproject

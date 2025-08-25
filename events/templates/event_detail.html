@@ -1,0 +1,166 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Details</title>
+    <link rel="stylesheet" href="{% static "CSS/output.css" %}">
+    <link rel="stylesheet" href="{% static "CSS/style.css" %}">
+</head>
+<body>
+    <div class="bg-yellow-50">
+        <div class="relative p-20 bg-yellow-50">
+            <img class="absolute -top-10 md:left-48 size-60" src="{% static "Images/vertical_string_lights.svg" %}" alt="">
+            <img class="absolute size-36 -top-6 -right-10 md:-right-6 md:size-60 rotate-45" src="{% static "Images/double_garland.svg" %}" alt="">
+            <h1 class="text-2xl font-bold text-yellow-700 flex justify-center mb-5">Moments</h1>
+            <!-- Image gallery -->
+            {% if detail.images.all %}
+            <div class="w-full bg-yellow-950/30 rounded-md grid grid-flow-col auto-cols-max grid-rows-2 gap-4 max-h-[540px] overflow-x-scroll p-4">
+                {% for image in detail.images.all %}
+                    <div class="bg-slate-700 rounded-md flex items-center w-80 overflow-y-auto"><img class="rounded-md w-full h-full object-fit" src="{{ image.image.url }}" alt="event_image"></div>
+                {% endfor %}
+            </div>
+            {% else %}
+                <div class="w-full flex flex-col gap-2 justify-center items-center p-5"> 
+                    <img class="min-w-[200px] md:w-1/2 h-full opacity-50" src="{% static "Images/gallery.svg" %}" alt="">
+                    <p class="text-sm md:text-lg font-semibold text-gray-500 text-nowrap">No image found!</p> 
+                </div>
+            {% endif %}
+        </div>
+        <!-- Event Name -->
+        <div class="mx-auto max-w-2xl pb-16 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto_auto_1fr] lg:gap-x-8 lg:px-8 lg:pt-16 lg:pb-24">
+            <div class="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
+                <h1 class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">{{detail.name}}</h1>
+            </div>
+
+            <div class="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pt-6 lg:pr-8 lg:pb-16">
+                <!-- Description and details -->
+                <div>
+                    <h3 class="sr-only">Description</h3>
+
+                    <div class="space-y-5 flex flex-col">
+                        <div class="flex flex-row gap-1 items-center">
+                            <div class="size-5 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="#966500" viewBox="0 0 640 640"><!--!Font Awesome Free v7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M480 160L352 160L352 288L480 288L480 160zM544 288L544 480C544 515.3 515.3 544 480 544L160 544C124.7 544 96 515.3 96 480L96 160C96 124.7 124.7 96 160 96L480 96C515.3 96 544 124.7 544 160L544 288zM160 352L160 480L288 480L288 352L160 352zM288 288L288 160L160 160L160 288L288 288zM352 352L352 480L480 480L480 352L352 352z"/></svg>
+                            </div>
+                            <p class="text-sm font-bold">Category: </p>
+                            <p class="text-base font-medium text-yellow-600 uppercase">{{detail.category}}</p>
+                        </div>
+                        <div class="flex flex-row gap-1 items-center">
+                            <div class="size-5">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="#966500" viewBox="0 0 640 640"><!--!Font Awesome Free v7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M128 252.6C128 148.4 214 64 320 64C426 64 512 148.4 512 252.6C512 371.9 391.8 514.9 341.6 569.4C329.8 582.2 310.1 582.2 298.3 569.4C248.1 514.9 127.9 371.9 127.9 252.6zM320 320C355.3 320 384 291.3 384 256C384 220.7 355.3 192 320 192C284.7 192 256 220.7 256 256C256 291.3 284.7 320 320 320z"/></svg>
+                            </div>
+                            <p class="text-sm font-bold">Location: </p>
+                            <p class="text-base text-gray-900 capitalize">{{detail.location}}</p>
+                        </div>
+                        <div class="flex flex-row gap-1 items-center">
+                            <div class="size-5">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="#966500" viewBox="0 0 640 640"><!--!Font Awesome Free v7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M224 64C241.7 64 256 78.3 256 96L256 128L384 128L384 96C384 78.3 398.3 64 416 64C433.7 64 448 78.3 448 96L448 128L480 128C515.3 128 544 156.7 544 192L544 480C544 515.3 515.3 544 480 544L160 544C124.7 544 96 515.3 96 480L96 192C96 156.7 124.7 128 160 128L192 128L192 96C192 78.3 206.3 64 224 64zM224 320C206.3 320 192 334.3 192 352L192 416C192 433.7 206.3 448 224 448L288 448C305.7 448 320 433.7 320 416L320 352C320 334.3 305.7 320 288 320L224 320z"/></svg>
+                            </div>
+                            <p class="text-sm font-bold">Event Date: </p>
+                            <p class="text-base text-gray-900 capitalize">{{detail.event_date}}</p>
+                        </div>
+                        <div class="flex flex-row gap-1 items-center">
+                            <div class="size-5">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="#966500" viewBox="0 0 640 640"><!--!Font Awesome Free v7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M320 64C461.4 64 576 178.6 576 320C576 461.4 461.4 576 320 576C178.6 576 64 461.4 64 320C64 178.6 178.6 64 320 64zM296 184L296 320C296 328 300 335.5 306.7 340L402.7 404C413.7 411.4 428.6 408.4 436 397.3C443.4 386.2 440.4 371.4 429.3 364L344 307.2L344 184C344 170.7 333.3 160 320 160C306.7 160 296 170.7 296 184z"/></svg>
+                            </div>
+                            <p class="text-sm font-bold">Event Time: </p>
+                            <p class="text-base text-gray-900 capitalize">{{detail.event_time}}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-10">
+                    <h3 class="text-sm font-bold text-gray-900">Participants</h3>
+
+                    <div class="mt-4">
+                        <ul role="list" class="list-disc space-y-2 pl-4 text-sm">
+                            {% for participant in detail.participants.all %}
+                                <li class="text-gray-400">
+                                    <span class="text-gray-600 uppercase">{{participant.name}}</span>
+                                    <ul class="list-none space-y-2 text-sm">
+                                        <li class="text-gray-400">✉️ {{participant.email}}</li>
+                                    </ul>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mt-10">
+                    <h2 class="text-sm font-bold text-gray-900">Description</h2>
+
+                    <div class="mt-4 space-y-6">
+                        <p class="text-sm text-gray-600">{{detail.description}}</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Info -->
+            <div class="mt-4 lg:row-span-3 lg:mt-0">
+                <h2 class="sr-only">Event information</h2>
+                <p class="text-3xl tracking-tight text-gray-900">Package: <b>$192</b></p>
+
+                <!-- Reviews -->
+                <div class="mt-6">
+                    <h3 class="sr-only">Reviews</h3>
+                    <div class="flex items-center">
+                        <div class="flex items-center text-yellow-400">
+                            <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-5 shrink-0 text-gray-900">
+                                <path d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401Z" clip-rule="evenodd" fill-rule="evenodd" />
+                            </svg>
+                            <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-5 shrink-0 text-gray-900">
+                                <path d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401Z" clip-rule="evenodd" fill-rule="evenodd" />
+                            </svg>
+                            <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-5 shrink-0 text-gray-900">
+                                <path d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401Z" clip-rule="evenodd" fill-rule="evenodd" />
+                            </svg>
+                            <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-5 shrink-0 text-gray-900">
+                                <path d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401Z" clip-rule="evenodd" fill-rule="evenodd" />
+                            </svg>
+                            <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-5 shrink-0 text-gray-200">
+                                <path d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401Z" clip-rule="evenodd" fill-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <p class="sr-only">4 out of 5 stars</p>
+                        <a href="#" class="ml-3 text-sm font-medium text-yellow-600 hover:text-yellow-500">117 reviews</a>
+                    </div>
+                </div>
+
+                <div class="mt-10">
+                    <!-- Colors -->
+                    <div>
+                        <h3 class="text-sm font-bold text-gray-900">Event Theme</h3>
+
+                        <fieldset aria-label="Choose a color" class="mt-4">
+                        <div class="flex space-x-2">
+                            <span class="w-8 h-8 rounded-full bg-emerald-400 outline -outline-offset-1 outline-black/10"></span>
+                            <span class="w-8 h-8 rounded-full bg-purple-400 outline -outline-offset-1 outline-black/10"></span>
+                            <span class="w-8 h-8 rounded-full bg-pink-400 outline -outline-offset-1 outline-black/10"></span>
+                            <span class="w-8 h-8 rounded-full bg-black outline -outline-offset-1 outline-black/10"></span>
+                        </div>
+                        <p class="text-gray-600 mt-2">Emerald | Purple | Blush | Dark Night</p>
+                        </fieldset>
+                    </div>
+
+                    <div class="mt-10">
+                        <div class="grid sm:grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="bg-yellow-700/30 p-6 rounded-lg shadow hover:shadow-lg transition text-center">
+                                <div class="text-4xl mb-3">🍽</div>
+                                <h2 class="text-lg font-semibold">Catering</h2>
+                                <p class="text-gray-600 text-sm mt-2">Full-course meals, snacks, and beverages tailored to the theme.</p>
+                            </div>
+                            <div class="bg-yellow-700/30 p-6 rounded-lg shadow hover:shadow-lg transition text-center">
+                                <div class="text-4xl mb-3">📸</div>
+                                <h2 class="text-lg font-semibold">Photography</h2>
+                                <p class="text-gray-600 text-sm mt-2">Professional photographers & photo booth for memories.</p>
+                            </div>
+                        </div>
+                    </div>
+                <button onclick="history.back()" type="submit" class="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-yellow-600 px-8 py-3 text-base font-medium text-white hover:bg-yellow-400 focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 focus:outline-hidden">Go to Events</button>
+            </div>
+            </div>
+        </div>
+    </div> 
+</body>
+</html>
