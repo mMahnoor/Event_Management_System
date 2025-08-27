@@ -20,21 +20,22 @@
                     </div>
                 </div>
                 <div class="text-center">
-                    <h1 class="sm:relative text-4xl font-semibold tracking-tight text-white sm:text-7xl p-5 text-center">
+                    <h1 class="relative text-4xl font-semibold tracking-tight text-white sm:text-7xl p-5 text-center oleo-script-regular">
                         Organize unforgettable events
-                        <img class="sm:absolute left-0 top-0 hidden sm:flex" src="{% static "Images/rec_lights.svg" %}" alt="">
+                        <img class="absolute left-0 top-0 hidden sm:flex" src="{% static "Images/rec_lights.svg" %}" alt="">
+                        <img class="absolute left-0 -bottom-6 flex sm:hidden rotate-180" src="{% static "Images/two_string_lights.svg" %}" alt="">
                     </h1>
                     <p class="mt-8 text-lg font-medium text-gray-200 sm:text-xl/8">
                         Plan, organize, and execute stress-free events with our all-in-one management solution.
                     </p>
-                    <div class="mt-10 flex items-center justify-center gap-x-6">
+                    <div class="mt-10 flex items-center justify-center gap-x-6 sm:z-50">
                         <a href="#"
                             class="rounded-md bg-yellow-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-yellow-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
                             Get started
                         </a>
-                        <a href="#" class="text-sm/6 font-semibold text-white">
+                        {% comment %} <a href="#" class="text-sm/6 font-semibold text-white">
                             Learn more <span aria-hidden="true">→</span>
-                        </a>
+                        </a> {% endcomment %}
                     </div>
                 </div>
             </div>

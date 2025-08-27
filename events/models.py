@@ -32,7 +32,7 @@ class Event(models.Model):
 
 class EventImage(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="images")
-    image = models.ImageField(upload_to="event_images/", blank=True, default='event_images/default.png')
+    image = models.ImageField(upload_to="occavue_images/", blank=True, default='event_images/default.png')
 
     def __str__(self):
         return f"Image for {self.event.name}"

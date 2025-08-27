@@ -2,15 +2,15 @@
 {% load static %}
 {% block title %}Participants{% endblock title %}
 {% block content %}
-    <div class="bg-[#523824] py-24 sm:py-32 px-8">
+    <div class="bg-[#523824] py-24 sm:py-32 px-24">
         <div class="grid max-w-7xl gap-20 px-6 lg:px-8 xl:grid-cols-3 justify-center">
             <div class="relative max-w-xl h-auto p-5">
                 <img src="{% static "Images/people.svg" %}" alt="" class="mb-3 rounded-md">
                 <img src="{% static "Images/party_lights.svg" %}" alt="" class="absolute -top-4 left-0">
-                <h2 class="text-3xl font-semibold text-yellow-600 sm:text-4xl">You’re part of the Experience</h2>
-                <p class="mt-6 text-lg/8 text-gray-400 w-full h-fit">This page brings all participants into one place. Discover who’s joining, interact with fellow attendees, and stay updated on event highlights. Together, we make the event more than a schedule—it becomes a shared journey.</p>
-                <div>
-                    <a href="{% url "add-participant" %}"><button class="text-sm font-bold bg-yellow-700 hover:bg-yellow-400 text-white px-4 py-2 rounded-md hover:translate-x-0.5 hover:translate-y-1 mt-5">+ New Participant</button></a>
+                <h2 class="text-3xl font-semibold text-yellow-600 sm:text-4xl text-center">You’re part of the Experience</h2>
+                <p class="mt-6 text-lg/8 text-gray-400 w-full h-fit text-center">This page brings all participants into one place. Discover who’s joining, interact with fellow attendees, and stay updated on event highlights. Together, we make the event more than a schedule—it becomes a shared journey.</p>
+                <div class="flex justify-center items-center">
+                    <a href="{% url "add-participant" %}"><button class="text-sm font-bold bg-yellow-700 hover:bg-yellow-400 text-white px-4 py-2 rounded-md hover:translate-x-1 hover:translate-y-1 hover:duration-300 mt-5"> + <span>New Participant</span></button></a>
                 </div>
             </div>
             <ul role="list" class="grid gap-x-8 gap-y-12 sm:grid-cols-2 sm:gap-y-16 xl:col-span-2">
