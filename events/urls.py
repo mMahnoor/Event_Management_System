@@ -9,6 +9,7 @@ urlpatterns = [
     path('update_event/<int:id>/', update_event, name='update-event'),
     path('update_participant/<int:id>/', update_participant, name='update-participant'),
     path('update_category/<int:id>/', update_category, name='update-category'),
+    path('delete_event/<int:id>/', delete_event, name='delete-event'),
     path('delete_participant/<int:id>/', delete_participant, name='delete-participant'),
     path('delete_category/<int:id>/', delete_category, name='delete-category'),
     path('view_task/', show_events, name='view-task'),
