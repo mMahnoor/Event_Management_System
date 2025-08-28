@@ -3,13 +3,13 @@
 {% load static %}
 {% block content %}
     <div class="pt-40 bg-[#523824]">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-center px-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6  md:gap-8 lg:gap-4 items-center px-8">
             {% comment %} Card-1  {% endcomment %}
             <a href="{% url 'organizer-dashboard' %}?type=all">
                 <div
                     class="relative rounded-xl hover:shadow-lg hover:shadow-yellow-200 hover:-translate-y-1 shadow-md shadow-yellow-400 bg-[#1f1000] flex justify-between items-center p-4"
                 >
-                    <img class="absolute -top-5 md:-top-10 left-0 -rotate-3" src="{% static "Images/party_lights.svg" %}" alt="nn">
+                    <img class="absolute -top-8 sm:-top-16 lg:-top-10 left-0 [transform:rotateY(180deg)_rotate(-3deg)] lg:-rotate-3" src="{% static "Images/party_lights.svg" %}" alt="nn">
                     <div class="">
                         <p class="text-yellow-500 uppercase font-medium mb-3">Total Events</p>
                         <p class="text-yellow-600 font-bold text-3xl mb-1">{{counts.total_events}}</p>
@@ -27,7 +27,7 @@
                 <div
                     class="relative p-4 rounded-xl hover:shadow-lg hover:shadow-yellow-200 hover:-translate-y-1 shadow-md shadow-yellow-400 bg-[#1f1000] flex justify-between items-center"
                 >
-                    <img class="absolute -top-5 md:-top-10 left-0 [transform:rotateY(180deg)_rotate(-3deg)]" src="{% static "Images/party_lights.svg" %}" alt="nn">
+                    <img class="absolute -top-8 sm:-top-16 lg:-top-10 left-0 [transform:rotateY(180deg)_rotate(-3deg)]" src="{% static "Images/party_lights.svg" %}" alt="nn">
                     <div class="">
                         <p class="text-yellow-500 uppercase font-medium mb-3">
                         Past Events
@@ -47,7 +47,7 @@
                 <div
                     class="relative p-4 rounded-xl hover:shadow-lg hover:shadow-yellow-200 hover:-translate-y-1 shadow-md shadow-yellow-500 bg-[#1f1000] flex justify-between items-center"
                 >
-                    <img class="absolute -top-5 md:-top-10 left-0 -rotate-3" src="{% static "Images/party_lights.svg" %}" alt="nn">
+                    <img class="absolute -top-8 sm:-top-16 lg:-top-10 left-0 [transform:rotateY(180deg)_rotate(-3deg)] lg:-rotate-3" src="{% static "Images/party_lights.svg" %}" alt="nn">
                     <div class="">
                         <p class="text-yellow-500 uppercase font-medium mb-3">
                         Upcoming Events
@@ -67,7 +67,7 @@
                 <div
                     class="relative p-4 rounded-xl hover:shadow-lg hover:shadow-yellow-200 hover:-translate-y-1 shadow-md shadow-yellow-500 bg-[#1f1000] flex justify-between items-center"
                 >
-                    <img class="absolute -top-5 md:-top-10 left-0 [transform:rotateY(180deg)_rotate(-3deg)]" src="{% static "Images/party_lights.svg" %}" alt="nn">
+                    <img class="absolute -top-8 sm:-top-16 lg:-top-10 left-0 [transform:rotateY(180deg)_rotate(-3deg)]" src="{% static "Images/party_lights.svg" %}" alt="nn">
                     <div class="">
                         <p class="text-yellow-500 uppercase font-medium mb-3">Total Participants</p>
                         <p class="text-yellow-600 font-bold text-3xl mb-1">{{counts.total_participants}}</p>
