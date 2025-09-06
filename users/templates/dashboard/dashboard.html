@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock title %}
+{% load static %}
+{% block content %}
+    <div class="pt-40 bg-[#523824]">
+        {% comment %} Dashboard Content {% endcomment %}
+        {% block dashboard_content %}{% endblock dashboard_content %}
+    </div>
+{% endblock content %}

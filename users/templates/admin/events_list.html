@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Events{% endblock title %}
+{% block content %}
+    <div class="pt-40 bg-[#523824]">
+        <h1 class="text-4xl sm:text-6xl font-bold text-yellow-600 text-center">Plan events with purpose</h1>
+        <div class="flex justify-center items-center py-10">
+            <a href="{% url "create-event" %}"><button class="bg-yellow-800 hover:bg-yellow-400 text-sm text-white font-bold px-4 py-2 rounded shadow-md" onclick="document.getElementById('formDialog').showModal()">✚ Create Event</button></a>
+        </div>
+        {% url "events-list" as action_url %}
+        {% include "show_events.html" with action_url=action_url %}
+    </div>
+{% endblock content %}

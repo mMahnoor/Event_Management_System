@@ -1,4 +1,4 @@
-<div class="min-w-[600px] bg-transparent rounded-xl shadow-sm mt-6">
+<div class="min-w-[600px] bg-transparent rounded-xl shadow-sm mt-6 mb-8">
     <div
       class="grid grid-cols-3 p-4 border-b border-gray-100 text-sm text-yellow-500"
     >
@@ -9,19 +9,19 @@
     {% comment %} Items {% endcomment %}
     <div class="divide-y divide-gray-300">
       {% comment %} ROWS {% endcomment %}
-      {% for participant in participants %}
+      {% for event in participants %}
           <div class="grid grid-cols-3 gap-4 p-4 items-center">
             <div class="flex items-center justify-center">
-              <span class="text-lg font-medium capitalize text-yellow-950 text-center">{{participant.name}}</span>
+              <span class="text-lg font-medium capitalize text-yellow-950 text-center">{{event.name}}</span>
             </div>
             <div class="flex items-center justify-center">
               <span
                   class="px-3 py-1 rounded-full bg-yellow-700/30 text-yellow-700 text-sm"
               >
-              {{participant.email}}
+              {{event.organizer.first_name}} {{event.organizer.last_name}}
               </span>
             </div>
-            <div class="text-yellow-700 font-semibold text-center">{{participant.total_events}}</div>
+            <div class="text-yellow-700 font-semibold text-center">{{event.total_rsvps}}</div>
           </div>
       {% endfor %}
     </div>

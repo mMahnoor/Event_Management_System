@@ -1,0 +1,17 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static "CSS/output.css" %}">
+    <link rel="stylesheet" href="CSS/style.css">
+    <title>No Permission</title>
+</head>
+<body>
+    <div class="w-full h-screen flex flex-col gap-6 justify-center items-center py-20">
+        <img class="w-[300px] h-auto px-10" src="{% static "Images/no_permission.svg" %}" alt="">
+        <h2 class="text-sm sm:text-2xl text-yellow-800 font-bold text-center">Oops! Looks like you don't have permission to access this page.</h2>
+    </div>
+</body>
+</html>

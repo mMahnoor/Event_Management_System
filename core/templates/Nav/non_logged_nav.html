@@ -1,0 +1,74 @@
+<nav aria-label="Global" id="navbar" class="fixed w-full top-0 z-50 transition-all duration-300 bg-transparent flex items-center justify-between p-6 lg:px-8">
+    <div class="flex lg:flex-1">
+        <a href="{% url 'home' %}" class="-m-1.5 p-1.5">
+            <span class="text-4xl font-bold text-yellow-400 capitalize lavishly-yours-regular">Occavue</span>
+        </a>
+    </div>
+    <div class="hidden lg:flex lg:gap-x-12">
+        <a href="#" class="text-yellow-400 hover:text-yellow-200">Features</a>
+        <a href="#" class="text-yellow-400 hover:text-yellow-200">Pricing</a>
+        <a href="#" class="text-yellow-400 hover:text-yellow-200">About</a>
+        <a href="#" class="text-yellow-400 hover:text-yellow-200">Contact</a>
+    </div>
+    <div class="flex lg:flex-1 lg:justify-end">
+        <div class="flex lg:hidden">
+            <button id="menu_toggle" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-yellow-400">
+                <span class="sr-only">Open main menu</span>
+                <svg class="size-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
+                </svg>
+            </button>
+        </div>
+        <div class="hidden lg:flex gap-1">
+            <a
+            href="{% url 'sign-in' %}"
+            class="hidden md:block bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600 transition duration-300"
+            >Sign In</a
+            >
+            <a
+            href="{% url 'sign-up' %}"
+            class="hidden md:block bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600 transition duration-300"
+            >Sign Up</a
+            >
+        </div>
+    </div>    
+</nav>
+
+{% comment %} Hidden mobile menu {% endcomment %}
+<div id="mobile_menu" class="hidden lg:hidden fixed inset-0 z-50 w-full bg-gray-900 p-6">
+  <div class="flex items-center justify-between">
+    <a href="{% url 'home' %}" class="-m-1.5 p-1.5">
+      <span class="text-4xl font-bold text-yellow-400 capitalize lavishly-yours-regular">Occavue</span>
+    </a>
+    <button id="close_menu" class="-m-2.5 rounded-md p-2.5 text-gray-200">
+      <span class="sr-only">Close menu</span>
+      <svg class="size-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="mt-6 space-y-4">
+    <a href="#" class="block rounded-lg px-3 py-2 text-base font-semibold text-yellow-400 hover:bg-white/5">Features</a>
+    <a href="#" class="block rounded-lg px-3 py-2 text-base font-semibold text-yellow-400 hover:bg-white/5">Pricing</a>
+    <a href="#" class="block rounded-lg px-3 py-2 text-base font-semibold text-yellow-400 hover:bg-white/5">About</a>
+    <a href="#" class="block rounded-lg px-3 py-2 text-base font-semibold text-yellow-400 hover:bg-white/5">Contact</a>
+    <a href="{% url "sign-in" %}" class="block px-3 py-2 text-yellow-600 hover:text-yellow-800">Sign In</a>
+    <a href="{% url "sign-up" %}" class="block px-3 py-2 text-yellow-600 hover:text-yellow-800">Sign Up</a>
+  </div>
+</div>
+{% comment %} javascript actions {% endcomment %}
+<script>
+  const toggle = document.getElementById("menu_toggle");
+  const close = document.getElementById("close_menu");
+  const menu = document.getElementById("mobile_menu");
+
+  toggle.addEventListener("click", () => {
+    menu.classList.remove("hidden");
+  });
+
+  close.addEventListener("click", () => {
+    menu.classList.add("hidden");
+  });
+</script>
+

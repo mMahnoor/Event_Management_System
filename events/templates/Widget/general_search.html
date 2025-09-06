@@ -1,5 +1,5 @@
 <div class="relative w-full md:w-1/2 flex flex-row justify-center gap-2 items-center p-4">
-    <form method="get" class="flex w-full" action="{% url "home" %}">
+    <form method="get" class="flex w-full" action="{{action_url}}">
         <input type="hidden" name="type" value="search">
         <input
             type="text"

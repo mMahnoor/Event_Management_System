@@ -1,4 +1,5 @@
 {% load static %}
+{% load check_group_tag %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -15,7 +16,15 @@
   </head>
   <body class="font-sans bg-white">
     <header class="w-full">
+      {% if "Admin" in user_groups %}
+        {% include "Nav/admin_nav.html" %}
+      {% elif "Organizer" in user_groups %}
+        {% include "Nav/organizer_nav.html" %}
+      {% elif "User" in user_groups %}
         {% include "Nav/nav.html" %}
+      {% else %}
+        {% include "Nav/non_logged_nav.html" %}
+      {% endif %}
     </header>
     <main>
       {% block content %}

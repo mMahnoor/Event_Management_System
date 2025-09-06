@@ -6,10 +6,10 @@
   </div>
 
   <div class="hidden lg:flex lg:gap-x-12">
-    <a href="{% url 'organizer-dashboard' %}" class="text-sm/6 font-semibold text-yellow-400">Dashboard</a>
-    <a href="{% url 'create_event' %}" class="text-sm/6 font-semibold text-yellow-400">Create Event</a>
-    <a href="{% url 'category' %}" class="text-sm/6 font-semibold text-yellow-400">Category</a>
-    <a href="{% url 'participants' %}" class="text-sm/6 font-semibold text-yellow-400">Participants</a>
+    <a href="{% url 'organizer-dashboard' %}" class="text-yellow-400 hover:text-yellow-200">Dashboard</a>
+    <a href="{% url 'create-event' %}" class="text-yellow-400 hover:text-yellow-200">Create Event</a>
+    <a href="{% url 'category' %}" class="text-yellow-400 hover:text-yellow-200">Category</a>
+    {% comment %} <a href="{% url 'participants' %}" class="text-yellow-400 hover:text-yellow-200">Participants</a> {% endcomment %}
   </div>
 
   <div class="flex lg:flex-1 lg:justify-end">
@@ -21,19 +21,28 @@
         </svg>
       </button>
     </div>
-    <button type="button" class="relative rounded-full p-1 ml-3 text-gray-400 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-yellow-500">
+    <button type="button" class="w-10 h-10 flex justify-center items-center relative rounded-full p-1 ml-3 text-gray-400 focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-yellow-500">
         <span class="absolute -inset-1.5"></span>
         <span class="sr-only">View notifications</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6">
         <path d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
     </button>
-
-    <button class="z-50 ml-3 relative flex rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-500">
-        <span class="absolute -inset-1.5"></span>
-        <span class="sr-only">Open user menu</span>
-        <div class="p-0 flex text-center items-center justify-center text-yellow-50 font-semibold w-10 h-10 rounded-full bg-gray-800 outline outline-1 -outline-offset-1 outline-white/10">M</div>
+    <button id="user-menu-button" class="z-50 ml-3 relative flex rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-500">
+      <span class="absolute -inset-1.5"></span>
+      <span class="sr-only">Open user menu</span>
+      <div class="p-0 flex text-center items-center justify-center text-yellow-50 font-semibold w-10 h-10 rounded-full bg-gray-800 outline outline-1 -outline-offset-1 outline-white/10 uppercase">{{ request.user.first_name|first }}</div>
     </button>
+    <div id="user-menu" class="absolute right-0 top-10 mt-8 w-48 bg-yellow-100 text-yellow-800 rounded-md shadow-lg py-1 hidden">
+      <form method="post" action="{% url 'sign-out' %}" class="w-full hover:bg-yellow-900/30 rounded">
+          {% csrf_token %}
+          <button
+          class="w-full px-4 py-2 text-sm"
+          >
+          Logout
+          </button>
+      </form>
+    </div>
   </div>
 </nav>
 
@@ -53,22 +62,34 @@
 
   <div class="mt-6 space-y-4">
     <a href="{% url 'organizer-dashboard' %}" class="block rounded-lg px-3 py-2 text-base font-semibold text-yellow-400 hover:bg-white/5">Dashboard</a>
-    <a href="{% url 'create_event' %}" class="block rounded-lg px-3 py-2 text-base font-semibold text-yellow-400 hover:bg-white/5">Create Event</a>
+    <a href="{% url 'create-event' %}" class="block rounded-lg px-3 py-2 text-base font-semibold text-yellow-400 hover:bg-white/5">Create Event</a>
     <a href="{% url 'category' %}" class="block rounded-lg px-3 py-2 text-base font-semibold text-yellow-400 hover:bg-white/5">Category</a>
-    <a href="{% url 'participants' %}" class="block rounded-lg px-3 py-2 text-base font-semibold text-yellow-400 hover:bg-white/5">Participants</a>
   </div>
 </div>
 {% comment %} javascript actions {% endcomment %}
 <script>
-  const toggle = document.getElementById("menu_toggle");
-  const close = document.getElementById("close_menu");
-  const menu = document.getElementById("mobile_menu");
+    const toggle = document.getElementById("menu_toggle");
+    const close = document.getElementById("close_menu");
+    const menu = document.getElementById("mobile_menu");
 
-  toggle.addEventListener("click", () => {
-    menu.classList.remove("hidden");
-  });
+    toggle.addEventListener("click", () => {
+        menu.classList.remove("hidden");
+    });
 
-  close.addEventListener("click", () => {
-    menu.classList.add("hidden");
-  });
+    close.addEventListener("click", () => {
+        menu.classList.add("hidden");
+    });
+
+    document
+    .getElementById("user-menu-button")
+    .addEventListener("click", function () {
+        document.getElementById("user-menu").classList.toggle("hidden");
+    });
+
+    // Close the dropdown when clicking outside
+    window.addEventListener("click", function (e) {
+        if (!document.getElementById("user-menu-button").contains(e.target)) {
+        document.getElementById("user-menu").classList.add("hidden");
+        }
+    });
 </script>

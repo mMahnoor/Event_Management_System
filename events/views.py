@@ -1,39 +1,37 @@
 from django.shortcuts import render, redirect
-from events.forms import EventModelForm, EventImageForm, ParticipantModelForm, CategoryModelForm
-from events.models import Event, Participants, Category
-from events.models import EventImage
+from events.forms import EventModelForm, EventImageForm, CategoryModelForm, RSVPModelForm
+from django.contrib.auth.forms import UserChangeForm
+from events.models import Event, Category, EventImage, RSVP
+from django.contrib.auth.models import User
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Count, Sum, Q
+from django.db import IntegrityError
 from django.utils.timezone import localdate
+from users.views import is_admin
+from users.forms import CustomUserChangeForm
 
 # Create your views here.
-def home(request):
-    type = request.GET.get('type', 'recents')
-    base_query = Event.objects.prefetch_related('images')
-    # events
-    if type=="search":
-        keyword = request.GET.get("keyword")
-        events = base_query.filter(Q(name__icontains=keyword)|Q(location__icontains=keyword)).only("name", "description", "location", "event_date", "event_time")
-        title="Search result"
-    else:
-        events = base_query.order_by("event_date").only("name", "description", "location", "event_date", "event_time")[:10]
-        title="Most Recent"
+# @login_required
+# def participants(request):
+#     events = Event.objects.annotate(total_rsvps=Count('rsvp_events'))
+#     context = {"participants":events}
+#     return render(request, "Participants/participants.html", context)
 
-    for event in events:
-        event.first_image = event.images.all()[0] if event.images.all() else None
+# test functions
+def is_organizer(user):
+    return user.groups.filter(name='Organizer').exists()
 
-    return render(request, "Home/hero_section.html", {"events":events, "title":title})
-
-def participants(request):
-    participants = Participants.objects.all().order_by('id')
-    context = {"participants":participants}
-    return render(request, "Participants/participants.html", context)
+def organizer_or_admin(user):
+    roles = set(user.groups.values_list("name", flat=True))
+    return "Admin" in roles or "Organizer" in roles
 
 def category(request):
     categories = Category.objects.all().order_by('id')
     context = {"categories":categories}
     return render(request, "Category/category.html", context)
 
+@user_passes_test(is_organizer, login_url='no-permission')
 def dashboard(request):
     type = request.GET.get('type', 'today')
     counts = Event.objects.aggregate(
@@ -44,7 +42,7 @@ def dashboard(request):
     )
 
     # Retriving event data
-    base_query = Event.objects.select_related('category').prefetch_related('participants','images')
+    base_query = Event.objects.select_related('category', 'organizer').prefetch_related('participants','images')
     participants=[]
     if type == 'past_events':
         events = base_query.filter(event_date__lt=localdate())
@@ -53,9 +51,8 @@ def dashboard(request):
         events = base_query.filter(event_date__gt=localdate())
         title = "Upcoming Events"
     elif type == 'total_participants':
-        total_events = Participants.objects.annotate(total_events=Count('event')).filter(total_events__gt=0)
+        participants = Event.objects.select_related("organizer").annotate(total_rsvps=Count('rsvp'))
         events = []
-        participants = total_events
         title = "Participants"
         print("hi:", participants)
     elif type == 'all':
@@ -95,11 +92,12 @@ def dashboard(request):
         "events": events,
         "counts": counts,
         "participants": participants,
-        "participant_headers": ["Name", "Email", "Total Events"],
+        "participant_headers": ["Name", "Organized By", "Total RSVPs"],
         "categories":categories,
     }
     return render(request, "dashboard/organizer_dashboard.html", context)
 
+@user_passes_test(organizer_or_admin, login_url='no-permission')
 def create_event(request):
     event_form = EventModelForm()
     image_form = EventImageForm()
@@ -109,33 +107,51 @@ def create_event(request):
         if event_form.is_valid():
 
             """ For Model Form Data """
-            event = event_form.save()
+            event = event_form.save(commit=False)
+            print('organizer:',event.organizer," | ",request.user)
+            event.organizer = request.user
+            event.save()
+            print('organizer-after:',event.organizer," | ",request.user)
             images = request.FILES.getlist("image")
             for img in images:
                 image_instance = EventImage(image=img, event=event)
                 image_instance.save()
 
             messages.success(request, "Event Created Successfully")
-            return redirect('create_event')
+            return redirect('create-event')
 
     context = {"form": event_form, "image_form": image_form, "form_title":"Create a New Event"}
     return render(request, "event_form.html", context)
 
-def add_participant(request):
-    form = ParticipantModelForm()
+@user_passes_test(is_admin, login_url='no-permission')
+def add_rsvp_using_form(request):
+    form = RSVPModelForm()
     if request.method == "POST":
-        form = ParticipantModelForm(request.POST, request.FILES)
-        if form.is_valid():
-
-            """ For Model Form Data """
-            participant = form.save()
-            
+        form = RSVPModelForm(request.POST)
+        # print("yo post:", request.POST)
+        if form.is_valid():            
+            form.save()
             messages.success(request, "Participant added successfully!")
-            return redirect('add-participant')
-
+        else:
+            messages.warning(request, "The user has already RSVP'd for this event.")
+            print(form.errors)
+        return redirect('add-participant')
     context = {"form": form, "form_title":"Add New Participant"}
     return render(request, "event_form.html", context)
 
+@login_required
+def add_rsvp_on_button_click(request):
+    if request.method == "POST":
+        form = RSVPModelForm(request.POST)
+        if form.is_valid():
+            form.save() 
+            messages.success(request, "You have successfully RSVP'd.")
+        else:
+            messages.warning(request, "You already RSVP'd for this event.")
+            print(form.errors)
+    return redirect(request.headers.get("REFERER"))
+
+@user_passes_test(organizer_or_admin, login_url='no-permission')
 def add_category(request):
     form = CategoryModelForm()
     if request.method == "POST":
@@ -152,6 +168,7 @@ def add_category(request):
     return render(request, "event_form.html", context)
 
 # Update Event
+@user_passes_test(organizer_or_admin, login_url='no-permission')
 def update_event(request, id):
     event = Event.objects.prefetch_related("participants", "images").get(id=id)
     images = event.images.all()
@@ -175,22 +192,24 @@ def update_event(request, id):
     context = {"form": event_form,"image_form": image_form, "images":images, "form_title":"Update Event"}
     return render(request, "event_form.html", context)
 
-def update_participant(request, id):
-    participant = Participants.objects.get(id=id)
-    form = ParticipantModelForm(instance=participant)
+@user_passes_test(is_admin, login_url='no-permission')
+def update_user(request, id):
+    user = User.objects.get(pk=id)
+    form = CustomUserChangeForm(instance=user)
     
     if request.method == "POST":
-        form = ParticipantModelForm(request.POST, instance=participant)
+        form = CustomUserChangeForm(request.POST, instance=user)
         if form.is_valid():
 
             """ For Model Form Data """
-            participant = form.save()
+            user = form.save()
             
             messages.success(request, "Info updated successfully!")
-            return redirect('update-participant', id)
+            return redirect('update-user', id)
     context = {"form": form, "form_title":"Update Participant Info"}
     return render(request, "event_form.html", context)
 
+@user_passes_test(organizer_or_admin, login_url='no-permission')
 def update_category(request, id):
     category = Category.objects.get(id=id)
     form = CategoryModelForm(instance=category)
@@ -207,7 +226,26 @@ def update_category(request, id):
     context = {"form": form, "form_title":"Update Category"}
     return render(request, "event_form.html", context)
 
+@user_passes_test(is_admin, login_url='no-permission')
+def update_rsvp(request, id):
+    rsvp = RSVP.objects.get(id=id)
+    form = RSVPModelForm(instance=rsvp)
+    
+    if request.method == "POST":
+        form = RSVPModelForm(request.POST, instance=rsvp)
+        if form.is_valid():
+
+            """ For Model Form Data """
+            rsvp = form.save()
+            
+            messages.success(request, "rsvp updated successfully!")
+            return redirect('update-rsvp', id)
+    context = {"form": form, "form_title":"Update RSVP"}
+    return render(request, "event_form.html", context)
+
+
 # Delete Event
+@user_passes_test(organizer_or_admin, login_url='no-permission')
 def delete_event(request, id):
     print("hello del!")
     if request.method == "POST":
@@ -219,20 +257,32 @@ def delete_event(request, id):
         messages.error(request, 'Something went wrong!')
     return render(request, "info.html")
 
-def delete_participant(request, id):
+@user_passes_test(is_admin, login_url='no-permission')
+def delete_user(request, id):
     if request.method == "POST":
-        participant = Participants.objects.get(id=id)
-        participant.delete()
-        messages.success(request, "Participant deleted successfully.")
+        user = User.objects.get(pk=id)
+        user.delete()
+        messages.success(request, "User deleted successfully.")
     else:
         messages.error(request, 'Something went wrong!')
     return render(request, "info.html")
 
+@user_passes_test(organizer_or_admin, login_url='no-permission')
 def delete_category(request, id):
     if request.method == "POST":
         category = Category.objects.get(id=id)
         category.delete()
         messages.success(request, "Category deleted successfully.")
+    else:
+        messages.error(request, 'Something went wrong!')
+    return render(request, "info.html")
+
+@user_passes_test(is_admin, login_url='no-permission')
+def delete_rsvp(request, id):
+    if request.method == "POST":
+        rsvp = RSVP.objects.get(pk=id)
+        rsvp.delete()
+        messages.success(request, "RSVP deleted successfully.")
     else:
         messages.error(request, 'Something went wrong!')
     return render(request, "info.html")
@@ -244,11 +294,55 @@ def show_events(request):
         num_events=Count('event')).order_by('num_events')
     return render(request, "show_events.html", {"event_list": events})
 
+@user_passes_test(organizer_or_admin, login_url='no-permission')
 def show_event_detail(request):
     id = request.GET.get('id')
     event = Event.objects.prefetch_related('participants','images').get(pk=id)
     context = {"detail": event}
     return render(request, "event_detail.html", context)
+
+# Show RSVPs
+@user_passes_test(is_admin, login_url='no-permission')
+def show_participants(request):
+    rsvps = RSVP.objects.select_related("user", "event__category", "event__organizer")
+    context = {"rsvp_list":rsvps}
+    return render(request, "admin/participants_list.html", context)
+
+def browse_events(request):
+    type = request.GET.get("type", "all")
+    base_query = Event.objects.select_related('category').prefetch_related('images')
+
+    if type=="search":
+        keyword = request.GET.get("keyword")
+        category = request.GET.get('category')
+        start_date = request.GET.get('start_date')
+        end_date = request.GET.get('end_date')
+        location = request.GET.get('location')
+        filters = Q()
+        if keyword:
+            filters &= Q(name__icontains=keyword)|Q(location__icontains=keyword)
+        if category:
+            filters &= Q(category__name__icontains=category)
+        if location:
+            filters &= Q(location__icontains=location)
+        if start_date and end_date:
+            filters &= Q(event_date__range=[start_date, end_date]) 
+        if start_date and not end_date:
+            filters &= Q(event_date__gt=start_date)
+        if not start_date and end_date:
+            filters &= Q(event_date__lt=end_date)
+
+        events = base_query.filter(filters)
+        title="Search result"
+    else:
+        events = base_query.all()
+        title = "All Events"
+    for event in events:
+        event.first_image = event.images.all()[0] if event.images.all() else None
+    categories = Category.objects.all()
+    context = {"events":events, "categories":categories, "title": title}
+    return render(request, "browse_events.html", context)
+
 
 # search form
 # def search_form(request):

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Browse Events{% endblock title %}
+{% block content %}
+{% url 'browse-events' as action_url %}
+    <div class="bg-[#523824] pt-40 pb-20 px-6 text-center text-yellow-600">
+        <h1 class="text-3xl sm:text-5xl font-bold mb-2">Discover Exciting Events</h1>
+        <p class="text-yellow-100">Find and RSVP to upcoming experiences tailored for you!</p>
+        <div class="flex justify-center items-center">{% include "Widget/general_search.html" with action_url=action_url %}</div>
+    </div>
+    {% include "show_events.html" with action_url=action_url %}
+{% endblock content %}

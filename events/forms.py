@@ -1,5 +1,6 @@
 from django import forms
-from events.models import Event, Category, EventImage, Participants
+from events.models import Event, Category, EventImage, RSVP
+from django.contrib.auth.models import User
 
 class StyledFormMixin:
     """ Mixing to apply style to form field"""
@@ -59,7 +60,7 @@ class StyledFormMixin:
 class EventModelForm(StyledFormMixin, forms.ModelForm):
     class Meta:
         model = Event
-        fields = ['name', 'description', 'event_date', 'event_time', 'location', 'category', 'participants']
+        fields = ['name', 'description', 'event_date', 'event_time', 'location', 'category']
         widgets = {
             # 'event_time': forms.SplitDateTimeWidget,
             'event_date': forms.SelectDateWidget,
@@ -82,10 +83,12 @@ class CategoryModelForm(StyledFormMixin, forms.ModelForm):
         model = Category
         fields = ['name', 'description']
 
-class ParticipantModelForm(StyledFormMixin, forms.ModelForm):
+class RSVPModelForm(StyledFormMixin, forms.ModelForm):
     class Meta:
-        model = Participants
-        fields = ['name', 'email']
-        widgets = {
-            'email':forms.EmailInput
-        }
+        model = RSVP
+        fields = ['user', 'event']
+        
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.fields["user"].queryset = User.objects.all()
+    #     self.fields["event"].queryset = Event.objects.all()
