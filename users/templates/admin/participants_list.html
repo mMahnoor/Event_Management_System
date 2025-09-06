@@ -2,11 +2,11 @@
 {% load static %}
 {% block title %}Participants{% endblock title %}
 {% block content %}
-    <div class="bg-[#523824] py-24 sm:py-32 px-24">
+    <div class="bg-[#523824] px-0 py-24 sm:py-32 sm:px-24">
         {% if messages %}
             {% include "Widget/Alerts.html" with messages=messages %}
         {% endif %}
-        <div class="grid max-w-7xl gap-20 px-6 lg:px-8 xl:grid-cols-3 justify-center">
+        <div class="grid max-w-7xl gap-20 px-2 lg:px-8 xl:grid-cols-3 justify-center">
             <div class="relative max-w-xl h-auto p-5">
                 <img src="{% static "Images/people.svg" %}" alt="" class="mb-3 rounded-md">
                 <img src="{% static "Images/party_lights.svg" %}" alt="" class="absolute -top-4 left-0">
@@ -19,16 +19,16 @@
             <ul role="list" class="grid gap-x-8 gap-y-12 sm:grid-cols-2 sm:gap-y-16 xl:col-span-2">
                 {% for rsvp in rsvp_list %}
                     <li>
-                        <div class="flex items-center justify-between gap-x-6 rounded-md p-4">
-                            <div class="shrink-0 flex flex-row items-center gap-2">
-                                <div class="shrink-0 size-8 rounded-full outline-1 -outline-offset-1 outline-black/5"><svg xmlns="http://www.w3.org/2000/svg" fill="#636363" viewBox="0 0 640 640"><!--!Font Awesome Free v7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M320 312C386.3 312 440 258.3 440 192C440 125.7 386.3 72 320 72C253.7 72 200 125.7 200 192C200 258.3 253.7 312 320 312zM290.3 368C191.8 368 112 447.8 112 546.3C112 562.7 125.3 576 141.7 576L498.3 576C514.7 576 528 562.7 528 546.3C528 447.8 448.2 368 349.7 368L290.3 368z"/></svg></div>
+                        <div class="flex flex-col sm:flex-row items-center justify-between gap-x-6 p-4 border-2 border-yellow-500 rounded-lg sm:border-0">
+                            <div class="flex flex-row items-center gap-2">
+                                <div class="size-8 rounded-full outline-1 -outline-offset-1 outline-black/5"><svg xmlns="http://www.w3.org/2000/svg" fill="#636363" viewBox="0 0 640 640"><!--!Font Awesome Free v7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M320 312C386.3 312 440 258.3 440 192C440 125.7 386.3 72 320 72C253.7 72 200 125.7 200 192C200 258.3 253.7 312 320 312zM290.3 368C191.8 368 112 447.8 112 546.3C112 562.7 125.3 576 141.7 576L498.3 576C514.7 576 528 562.7 528 546.3C528 447.8 448.2 368 349.7 368L290.3 368z"/></svg></div>
                                 <div class="w-full">
                                     <h3 class="text-base/7 font-semibold tracking-tight text-yellow-600 capitalize">{{rsvp.user.first_name}} {{rsvp.user.last_name}}</h3>
                                     <p class="text-sm/6 font-semibold text-yellow-50">{{rsvp.event}}</p>
                                     <small class="text-sm font-semibold text-gray-400">Organized By: <span class="text-yellow-500">{{rsvp.event.organizer.first_name}} {{rsvp.event.organizer.last_name}}</span></small>
                                 </div>
                             </div>
-                            <div class="shrink-0 flex flex-col md:flex-row gap-2">
+                            <div class="mt-4 flex sm:flex-col sm:mt-0 md:flex-row gap-2">
                                 <a href="{% url "update-rsvp" rsvp.id %}">
                                     <div class="size-5 hover:-translate-y-1 hover:duration-300">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="#F5B727" viewBox="0 0 640 640"><!--!Font Awesome Free v7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M416.9 85.2L372 130.1L509.9 268L554.8 223.1C568.4 209.6 576 191.2 576 172C576 152.8 568.4 134.4 554.8 120.9L519.1 85.2C505.6 71.6 487.2 64 468 64C448.8 64 430.4 71.6 416.9 85.2zM338.1 164L122.9 379.1C112.2 389.8 104.4 403.2 100.3 417.8L64.9 545.6C62.6 553.9 64.9 562.9 71.1 569C77.3 575.1 86.2 577.5 94.5 575.2L222.3 539.7C236.9 535.6 250.2 527.9 261 517.1L476 301.9L338.1 164z"/></svg>

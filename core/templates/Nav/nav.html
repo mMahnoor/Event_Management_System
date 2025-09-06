@@ -59,8 +59,8 @@
   </div>
 
   <div class="mt-6 space-y-4">
-    <a href="user-dashboard" class="block rounded-lg px-3 py-2 text-base font-semibold text-yellow-400 hover:bg-white/5">Dashboard</a>
-    <a href="#" class="block rounded-lg px-3 py-2 text-base font-semibold text-yellow-400 hover:bg-white/5">Browse Events</a>
+    <a href="{% url "user-dashboard" %}" class="block rounded-lg px-3 py-2 text-base font-semibold text-yellow-400 hover:bg-white/5">Dashboard</a>
+    <a href="{% url "browse-event" %}" class="block rounded-lg px-3 py-2 text-base font-semibold text-yellow-400 hover:bg-white/5">Browse Events</a>
     {% comment %} <a href="{% url 'category' %}" class="block rounded-lg px-3 py-2 text-base font-semibold text-yellow-400 hover:bg-white/5">Category</a>
     <a href="{% url 'participants' %}" class="block rounded-lg px-3 py-2 text-base font-semibold text-yellow-400 hover:bg-white/5">Participants</a> {% endcomment %}
   </div>
