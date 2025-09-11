@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Edit Profile{% endblock title %}
+{% block content %}
+    <div class="flex flex-col gap-8 h-full justify-center bg-yellow-50">
+        <div class="w-full md:w-1/2 mx-auto mt-40 mb-10">
+            <h1 class="text-2xl font-bold text-yellow-950 flex justify-center items-center">Edit Profile</h1>
+            <div class="-z-50 -translate-y-4 flex justify-center items-center">
+                <img src="{% static 'Images/party_garland.svg' %}" class="w-[250px] h-auto -hue-rotate-30" alt="icon">
+            </div>
+            <div>
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="px-2 py-1 {% if message.tags == 'success' %}bg-green-500{% endif %} ">{{message}}</div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="flex flex-col gap-6">
+                    {% for field in form %}
+                        <div class="flex flex-col gap-1">
+                            <label class="text-yellow-900 font-semibold" for="{{ field.id_for_label }}">
+                                {{ field.label }}
+                            </label>
+                            {{ field }}
+                            {% if field.errors %}
+                                <ul class="pb-2">
+                                    {% for error in field.errors %}
+                                        <li class="text-red-500 text-sm">{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="flex justify-center mt-10">
+                    <button type="submit"
+                            class="bg-yellow-700 px-10 py-2 rounded text-white font-bold hover:bg-yellow-800 transition">
+                        Submit
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock content %}

@@ -1,37 +1,52 @@
 {% extends "base.html" %}
 {% load static %}
+
 {% block title %}Sign Up{% endblock title %}
+
 {% block content %}
-    <div class="bg-yellow-50">
-        <div class='w-full md:w-1/2 mx-auto py-32 px-2'>
-            <h1 class="text-2xl font-bold text-yellow-950 flex justify-center items-center">Create Account</h1>
-            <div class="-z-50 -translate-y-4 flex justify-center items-center">
-                <img src="{% static 'Images/party_garland.svg' %}" class="w-[250px] h-auto -hue-rotate-30" alt="icon">
-            </div>
-            {% if form.non_field_errors %}
-                {% for error in form.non_field_errors %}
-                    <div class="mb-2 px-2 py-2 text-rose-700 bg-rose-100 rounded">{{ error }}</div>
-                {% endfor %}
-            {% endif %}
-            <form action="" method="POST">
-                {% csrf_token %}
+<div class="bg-yellow-50">
+    <div class="w-full md:w-1/2 mx-auto py-32 px-2">
+        <h1 class="text-2xl font-bold text-yellow-950 flex justify-center items-center">
+            Create Account
+        </h1>
+
+        <div class="-z-50 -translate-y-4 flex justify-center items-center">
+            <img src="{% static 'Images/party_garland.svg' %}" class="w-[250px] h-auto -hue-rotate-30" alt="icon">
+        </div>
+
+        {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}
+                <div class="mb-2 px-2 py-2 text-rose-700 bg-rose-100 rounded">{{ error }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <form action="" method="POST">
+            {% csrf_token %}
+            <div class="flex flex-col gap-6">
                 {% for field in form %}
-                <div class="flex flex-col gap-4">
                     <div class="flex flex-col gap-1">
-                        <label class="text-yellow-900 font-semibold" for="{{ field.id_for_label }}"> {{field.label}} </label>
+                        <label class="text-yellow-900 font-semibold" for="{{ field.id_for_label }}">
+                            {{ field.label }}
+                        </label>
                         {{ field }}
                         {% if field.errors %}
-                                <ul class="pb-2">
-                                    {% for error in field.errors %}
-                                    <li class="text-red-500 text-sm">{{error}}</li>
-                                    {% endfor %}
-                                </ul>
+                            <ul class="pb-2">
+                                {% for error in field.errors %}
+                                    <li class="text-red-500 text-sm">{{ error }}</li>
+                                {% endfor %}
+                            </ul>
                         {% endif %}
                     </div>
-                </p>
                 {% endfor %}
-                <button class="bg-yellow-700 px-4 py-2 rounded text-white mt-10 mx-20" type="submit">Sign Up</button>
-            </form>
-        </div>
+            </div>
+
+            <div class="flex justify-center mt-10">
+                <button type="submit"
+                        class="bg-yellow-700 px-10 py-2 rounded text-white font-bold hover:bg-yellow-800 transition">
+                    Sign Up
+                </button>
+            </div>
+        </form>
     </div>
+</div>
 {% endblock content %}

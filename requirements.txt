@@ -6,7 +6,9 @@ dj-database-url==3.0.1
 Django==4.2.23
 django-cloudinary-storage==0.3.0
 django-debug-toolbar==6.0.0
+django-phonenumber-field==8.1.0
 idna==3.10
+phonenumbers==9.0.13
 pillow==11.3.0
 psycopg==3.2.9
 psycopg-binary==3.2.9

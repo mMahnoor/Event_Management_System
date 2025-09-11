@@ -1,22 +1,24 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from events.forms import EventModelForm, EventImageForm, CategoryModelForm, RSVPModelForm
 from django.contrib.auth.forms import UserChangeForm
 from events.models import Event, Category, EventImage, RSVP
-from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Count, Sum, Q
-from django.db import IntegrityError
+from django.views.generic.edit import CreateView
+from django.views.generic.list import ListView
+from django.views.generic import DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.utils.decorators import method_decorator
 from django.utils.timezone import localdate
 from users.views import is_admin
 from users.forms import CustomUserChangeForm
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 # Create your views here.
-# @login_required
-# def participants(request):
-#     events = Event.objects.annotate(total_rsvps=Count('rsvp_events'))
-#     context = {"participants":events}
-#     return render(request, "Participants/participants.html", context)
 
 # test functions
 def is_organizer(user):
@@ -26,6 +28,7 @@ def organizer_or_admin(user):
     roles = set(user.groups.values_list("name", flat=True))
     return "Admin" in roles or "Organizer" in roles
 
+@user_passes_test(organizer_or_admin, login_url='no-permission')
 def category(request):
     categories = Category.objects.all().order_by('id')
     context = {"categories":categories}
@@ -123,12 +126,40 @@ def create_event(request):
     context = {"form": event_form, "image_form": image_form, "form_title":"Create a New Event"}
     return render(request, "event_form.html", context)
 
+@method_decorator(user_passes_test(organizer_or_admin, login_url="no-permission"), name="dispatch")
+class CreateEventView(LoginRequiredMixin, CreateView):
+    model = Event
+    form_class = EventModelForm
+    template_name = "event_form.html"
+    success_url = reverse_lazy("create-event") 
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["image_form"] = kwargs.get("image_form", EventImageForm())
+        context["form_title"] = "Create a New Event"
+        return context
+
+    def form_valid(self, form):
+        event = form.save(commit=False)
+        event.organizer = self.request.user
+        event.save()
+
+        images = self.request.FILES.getlist("image")
+        for img in images:
+            EventImage.objects.create(image=img, event=event)
+
+        messages.success(self.request, "Event Created Successfully")
+        return redirect("create-event")
+
+    def form_invalid(self, form):
+        context = self.get_context_data(form=form, image_form=EventImageForm(self.request.POST, self.request.FILES))
+        return self.render_to_response(context)
+
 @user_passes_test(is_admin, login_url='no-permission')
 def add_rsvp_using_form(request):
     form = RSVPModelForm()
     if request.method == "POST":
         form = RSVPModelForm(request.POST)
-        # print("yo post:", request.POST)
         if form.is_valid():            
             form.save()
             messages.success(request, "Participant added successfully!")
@@ -257,6 +288,22 @@ def delete_event(request, id):
         messages.error(request, 'Something went wrong!')
     return render(request, "info.html")
 
+@method_decorator(user_passes_test(organizer_or_admin, login_url="no-permission"), name="dispatch")
+class DeleteEventView(DeleteView):
+    model = Event
+    template_name = "info.html" 
+    
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        event_name = str(self.object)
+        self.object.delete()
+        messages.success(request, f"Event '{event_name}' deleted successfully.")
+        return render(request, self.template_name)
+
+    def get(self, request, *args, **kwargs):
+        messages.error(request, "Something went wrong!")
+        return render(request, self.template_name)
+
 @user_passes_test(is_admin, login_url='no-permission')
 def delete_user(request, id):
     if request.method == "POST":
@@ -343,6 +390,52 @@ def browse_events(request):
     context = {"events":events, "categories":categories, "title": title}
     return render(request, "browse_events.html", context)
 
+class BrowseEventsView(ListView):
+    model = Event
+    template_name = "browse_events.html"
+    context_object_name = "events"
+
+    def get_queryset(self):
+        type = self.request.GET.get("type", "all")
+        base_query = Event.objects.select_related("category").prefetch_related("images")
+
+        if type == "search":
+            keyword = self.request.GET.get("keyword")
+            category = self.request.GET.get("category")
+            start_date = self.request.GET.get("start_date")
+            end_date = self.request.GET.get("end_date")
+            location = self.request.GET.get("location")
+
+            filters = Q()
+            if keyword:
+                filters &= Q(name__icontains=keyword) | Q(location__icontains=keyword)
+            if category:
+                filters &= Q(category__name__icontains=category)
+            if location:
+                filters &= Q(location__icontains=location)
+            if start_date and end_date:
+                filters &= Q(event_date__range=[start_date, end_date])
+            elif start_date:
+                filters &= Q(event_date__gt=start_date)
+            elif end_date:
+                filters &= Q(event_date__lt=end_date)
+
+            queryset = base_query.filter(filters)
+            self.title = "Search result"
+        else:
+            queryset = base_query.all()
+            self.title = "All Events"
+
+        for event in queryset:
+            event.first_image = event.images.first()
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["categories"] = Category.objects.all()
+        context["title"] = getattr(self, "title", "All Events")
+        return context
 
 # search form
 # def search_form(request):

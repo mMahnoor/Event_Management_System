@@ -34,6 +34,12 @@
       <div class="p-0 flex text-center items-center justify-center text-yellow-50 font-semibold w-10 h-10 rounded-full bg-gray-800 outline outline-1 -outline-offset-1 outline-white/10 uppercase">{{ request.user.first_name|first }}</div>
     </button>
     <div id="user-menu" class="absolute right-0 top-10 mt-8 w-48 bg-yellow-100 text-yellow-800 rounded-md shadow-lg py-1 hidden">
+      <a
+        href="{% url 'profile' %}"
+        class="block px-4 py-2 text-sm text-yellow-700 hover:bg-yellow-900/30 rounded text-center"
+      >
+        My Profile
+      </a>
       <form method="post" action="{% url 'sign-out' %}" class="w-full hover:bg-yellow-900/30 rounded">
           {% csrf_token %}
           <button

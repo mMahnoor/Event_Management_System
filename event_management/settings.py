@@ -28,6 +28,9 @@ SECRET_KEY = config("SECRET_KEY")
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+
+AUTH_USER_MODEL = 'users.CustomUser'
+
 CSRF_TRUSTED_ORIGINS = ['https://*.onrender.com', 'http://127.0.0.1:8000']
 
 
@@ -39,12 +42,13 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
-    "django.contrib.staticfiles",
     'cloudinary_storage',
+    "django.contrib.staticfiles",
     'cloudinary',
     "core",
     "events",
     "users",
+    "phonenumber_field",
     "debug_toolbar",
 ]
 
@@ -148,6 +152,7 @@ STATICFILES_DIRS = [
 # Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
 # Cloudinary credentials
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME'),
@@ -178,3 +183,4 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 FRONTEND_URL = 'http://127.0.0.1:8000'
 LOGIN_URL = '/users/sign-in/'
 LOGOUT_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/events/dashboard/'

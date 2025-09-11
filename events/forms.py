@@ -1,6 +1,5 @@
 from django import forms
 from events.models import Event, Category, EventImage, RSVP
-from django.contrib.auth.models import User
 
 class StyledFormMixin:
     """ Mixing to apply style to form field"""
