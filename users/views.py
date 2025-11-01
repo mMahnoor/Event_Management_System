@@ -18,6 +18,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.decorators import method_decorator
 from django.contrib.auth import get_user_model
 
+from django.http import JsonResponse
+import smtplib
+from decouple import config
+
+
 User = get_user_model()
 
 # Create your views here.
@@ -376,3 +381,13 @@ class CustomPasswordResetConfirmView(PasswordResetConfirmView):
             self.request, 'Password is reset successfully')
         return super().form_valid(form)
 
+
+def test_smtp(request):
+    try:
+        s = smtplib.SMTP('smtp.gmail.com', 587)
+        s.starttls()
+        s.login(config('EMAIL_HOST_USER'), config('EMAIL_HOST_PASSWORD'))  
+        s.quit()
+        return JsonResponse({'status': 'success'})
+    except Exception as e:
+        return JsonResponse({'error': str(e)})
