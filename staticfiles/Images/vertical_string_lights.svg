@@ -1,0 +1,76 @@
+<svg width="900" height="550" viewBox="0 0 900 550" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Warm bulb gradient -->
+    <radialGradient id="bulbGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFF8D6"/>
+      <stop offset="45%" stop-color="#FFECA8"/>
+      <stop offset="100%" stop-color="#FFD86B"/>
+    </radialGradient>
+
+    <!-- Glow filter -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6" result="blur1"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1.2" result="blur2"/>
+      <feMerge>
+        <feMergeNode in="blur1"/>
+        <feMergeNode in="blur2"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Reusable light -->
+    <g id="light" filter="url(#glow)">
+      <circle r="6.5" fill="url(#bulbGrad)"/>
+      <circle r="20" fill="#FFE9A6" opacity="0.25"/>
+    </g>
+  </defs>
+
+  <!-- Strings + bulbs -->
+  <g transform="translate(0,0)">
+    <!-- Strings (solid stroke) -->
+    <g stroke="#a09986ff" stroke-width="2" stroke-linecap="round" opacity="0.9">
+      <path d="M50,0 V110"/>
+      <path d="M95,0 V160"/>
+      <path d="M135,0 V125"/>
+      <path d="M180,0 V200"/>
+      <path d="M225,0 V140"/>
+      <path d="M270,0 V180"/>
+      <path d="M315,0 V115"/>
+      <path d="M360,0 V170"/>
+      <path d="M405,0 V145"/>
+      <path d="M450,0 V205"/>
+      <path d="M495,0 V120"/>
+      <path d="M540,0 V185"/>
+      <path d="M585,0 V155"/>
+      <path d="M630,0 V210"/>
+      <path d="M675,0 V125"/>
+      <path d="M720,0 V175"/>
+      <path d="M765,0 V145"/>
+      <path d="M810,0 V195"/>
+      <path d="M855,0 V135"/>
+    </g>
+
+    <!-- Bulbs -->
+    <g>
+      <use href="#light" x="50"  y="110"/>
+      <use href="#light" x="95"  y="160"/>
+      <use href="#light" x="135" y="125"/>
+      <use href="#light" x="180" y="200"/>
+      <use href="#light" x="225" y="140"/>
+      <use href="#light" x="270" y="180"/>
+      <use href="#light" x="315" y="115"/>
+      <use href="#light" x="360" y="170"/>
+      <use href="#light" x="405" y="145"/>
+      <use href="#light" x="450" y="205"/>
+      <use href="#light" x="495" y="120"/>
+      <use href="#light" x="540" y="185"/>
+      <use href="#light" x="585" y="155"/>
+      <use href="#light" x="630" y="210"/>
+      <use href="#light" x="675" y="125"/>
+      <use href="#light" x="720" y="175"/>
+      <use href="#light" x="765" y="145"/>
+      <use href="#light" x="810" y="195"/>
+      <use href="#light" x="855" y="135"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,151 @@
+<svg viewBox="0 0 1450 450" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Rectangle surrounded by string lights">
+  <style>
+    .wire { fill: none; stroke: #523824; stroke-width: 6; }
+    .bulb { transform-origin: center; }
+    .cap { fill: #5e5e5e; }
+    .glass { fill: #fae360; stroke: #eba925; stroke-width: 2; }
+    .twinkle-1 { animation: twinkle 1.8s infinite ease-in-out; }
+    .twinkle-2 { animation: twinkle 1.8s .3s infinite ease-in-out; }
+    .twinkle-3 { animation: twinkle 1.8s .6s infinite ease-in-out; }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: .55; filter: drop-shadow(0 0 0 rgba(255,209,102,0)); }
+      50%      { opacity: 1;   filter: drop-shadow(0 0 10px rgba(255,209,102,.9)); }
+    }
+  </style>
+
+  <!-- Rounded-rectangle wire -->
+  <rect class="wire" x="15" y="15" width="1420" height="400" rx="0" />
+
+  <!-- Reusable bulb symbol (cap + glass) -->
+  <defs>
+    <g id="bulb">
+      <rect class="cap" x="-10" y="-26" width="20" height="12" rx="3"/>
+      <circle class="glass bulb" r="12"/>
+    </g>
+  </defs>
+
+  <!-- TOP EDGE bulbs -->
+  <g transform="translate(0,0)">
+    <g class="twinkle-1" transform="translate(20,40)">
+      <use href="#bulb"/>
+    </g>
+    <g class="twinkle-1" transform="translate(120,40)">
+      <use href="#bulb"/>
+    </g>
+    <g class="twinkle-2" transform="translate(220,40)">
+      <use href="#bulb"/>
+    </g>
+    <g class="twinkle-3" transform="translate(320,40)">
+      <use href="#bulb"/>
+    </g>
+    <g class="twinkle-1" transform="translate(420,40)">
+      <use href="#bulb"/>
+    </g>
+    <g class="twinkle-2" transform="translate(520,40)">
+      <use href="#bulb"/>
+    </g>
+    <g class="twinkle-3" transform="translate(620,40)">
+      <use href="#bulb"/>
+    </g>
+    <g class="twinkle-3" transform="translate(720,40)">
+      <use href="#bulb"/>
+    </g>
+    <g class="twinkle-3" transform="translate(820,40)">
+      <use href="#bulb"/>
+    </g>
+    <g class="twinkle-3" transform="translate(920,40)">
+      <use href="#bulb"/>
+    </g>
+    <g class="twinkle-3" transform="translate(1020,40)">
+      <use href="#bulb"/>
+    </g>
+    <g class="twinkle-3" transform="translate(1120,40)">
+      <use href="#bulb"/>
+    </g>
+    <g class="twinkle-3" transform="translate(1220,40)">
+      <use href="#bulb"/>
+    </g>
+    <g class="twinkle-3" transform="translate(1320,40)">
+      <use href="#bulb"/>
+    </g>
+    <g class="twinkle-3" transform="translate(1420,40)">
+      <use href="#bulb"/>
+    </g>
+  </g>
+
+  <!-- RIGHT EDGE bulbs (rotate cap outward) -->
+  <g>
+    <g class="twinkle-2" transform="translate(1420,120) rotate(90)">
+      <use href="#bulb"/>
+    </g>
+    <g class="twinkle-3" transform="translate(1420,200) rotate(90)">
+      <use href="#bulb"/>
+    </g>
+    <g class="twinkle-1" transform="translate(1420,280) rotate(90)">
+      <use href="#bulb"/>
+    </g>
+    <g class="twinkle-2" transform="translate(1420,360) rotate(90)">
+      <use href="#bulb"/>
+    </g>
+  </g>
+
+  <!-- BOTTOM EDGE bulbs -->
+  <g>
+    <g class="twinkle-3" transform="translate(120,400) rotate(180)">
+      <use href="#bulb"/>
+    </g>
+    <g class="twinkle-1" transform="translate(220,400) rotate(180)">
+      <use href="#bulb"/>
+    </g>
+    <g class="twinkle-2" transform="translate(320,400) rotate(180)">
+      <use href="#bulb"/>
+    </g>
+    <g class="twinkle-3" transform="translate(420,400) rotate(180)">
+      <use href="#bulb"/>
+    </g>
+    <g class="twinkle-1" transform="translate(520,400) rotate(180)">
+      <use href="#bulb"/>
+    </g>
+    <g class="twinkle-2" transform="translate(620,400) rotate(180)">
+      <use href="#bulb"/>
+    </g>
+    <g class="twinkle-2" transform="translate(720,400) rotate(180)">
+      <use href="#bulb"/>
+    </g>
+    <g class="twinkle-2" transform="translate(820,400) rotate(180)">
+      <use href="#bulb"/>
+    </g>
+    <g class="twinkle-2" transform="translate(920,400) rotate(180)">
+      <use href="#bulb"/>
+    </g>
+    <g class="twinkle-2" transform="translate(1020,400) rotate(180)">
+      <use href="#bulb"/>
+    </g>
+    <g class="twinkle-2" transform="translate(1120,400) rotate(180)">
+      <use href="#bulb"/>
+    </g>
+    <g class="twinkle-2" transform="translate(1220,400) rotate(180)">
+      <use href="#bulb"/>
+    </g>
+    <g class="twinkle-2" transform="translate(1320,400) rotate(180)">
+      <use href="#bulb"/>
+    </g>
+  </g>
+
+  <!-- LEFT EDGE bulbs -->
+  <g>
+    <g class="twinkle-1" transform="translate(30,120) rotate(270)">
+      <use href="#bulb"/>
+    </g>
+    <g class="twinkle-2" transform="translate(30,200) rotate(270)">
+      <use href="#bulb"/>
+    </g>
+    <g class="twinkle-3" transform="translate(30,280) rotate(270)">
+      <use href="#bulb"/>
+    </g>
+    <g class="twinkle-1" transform="translate(30,360) rotate(270)">
+      <use href="#bulb"/>
+    </g>
+  </g>
+</svg>

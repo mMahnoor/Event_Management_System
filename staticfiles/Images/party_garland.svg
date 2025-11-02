@@ -1,0 +1,18 @@
+<svg viewBox="0 0 800 200" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Animated party garland">
+  <style>
+    .sway { transform-origin: 400px 0px; animation: sway 4s ease-in-out infinite alternate; }
+    @keyframes sway { from { transform: rotate(-2deg); } to { transform: rotate(2deg); } }
+  </style>
+
+  <g class="sway">
+    <path d="M20,40 C200,140 600,-20 780,60" fill="none" stroke="#2F2F2F" stroke-width="6" stroke-linecap="round"/>
+    <polygon points="80,64 100,110 120,64"  fill="#EF4444"/>
+    <polygon points="160,78 180,124 200,78" fill="#F59E0B"/>
+    <polygon points="240,60 260,106 280,60" fill="#10B981"/>
+    <polygon points="320,72 340,118 360,72" fill="#3B82F6"/>
+    <polygon points="400,58 420,104 440,58" fill="#8B5CF6"/>
+    <polygon points="480,70 500,116 520,70" fill="#F97316"/>
+    <polygon points="560,56 580,102 600,56" fill="#EAB308"/>
+    <polygon points="640,68 660,114 680,68" fill="#EC4899"/>
+  </g>
+</svg>
