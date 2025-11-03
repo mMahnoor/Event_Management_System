@@ -184,7 +184,8 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
 
-FRONTEND_URL = 'http://127.0.0.1:8000'
+# FRONTEND_URL = 'http://127.0.0.1:8000'
+FRONTEND_URL = 'https://occavue.vercel.app'
 LOGIN_URL = '/users/sign-in/'
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_REDIRECT_URL = '/events/dashboard/'
