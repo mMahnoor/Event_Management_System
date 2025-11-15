@@ -362,7 +362,7 @@ class CustomPasswordResetView(PasswordResetView):
 
     def form_valid(self, form):
         messages.success(
-            self.request, 'A Reset email sent. Please check your email')
+            self.request, 'A Reset email will be sent within few minutes. Please check your email...')
         return super().form_valid(form)
 
 
